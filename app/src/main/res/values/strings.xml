@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FlickrCodeLab</string>
+    <string name="api_key">a47fd746ba330e2eaf115d873904c860</string>
 </resources>
