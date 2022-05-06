@@ -8,11 +8,12 @@ import com.github.hongbeomi.flickrcodelab.data.source.local.PhotosLocalDataSourc
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrDao
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrSqliteHelper
 import com.github.hongbeomi.flickrcodelab.data.source.remote.PhotosRemoteDataSource
+import com.github.hongbeomi.flickrcodelab.data.source.remote.connection.FlickrNetworkService
 
 object ServiceLocator {
 
     private var database: FlickrDao? = null
-    private var network: PhotosRemoteDataSource? = null
+    private var network: FlickrNetworkService? = null
 
     @Volatile
     var photosRepository: PhotosRepository? = null
@@ -41,15 +42,20 @@ object ServiceLocator {
 
     private fun createPhotosRepository(context: Context): PhotosRepository {
         val newRepo = DefaultPhotosRepository(
-            createPhotosRemoteDataSource(context),
-            createPhotosLocalDataSource(context)
+            localPhotosDataSource = createPhotosLocalDataSource(context),
+            remotePhotosDataSource = createPhotosRemoteDataSource(context)
         )
         photosRepository = newRepo
         return newRepo
     }
 
     private fun createPhotosRemoteDataSource(context: Context): PhotosRemoteDataSource {
-        val result = network ?: PhotosRemoteDataSource()
+        val result = network ?: createNetworkService(context)
+        return PhotosRemoteDataSource(result)
+    }
+
+    private fun createNetworkService(context: Context) : FlickrNetworkService {
+        val result = FlickrNetworkService(context)
         network = result
         return result
     }
