@@ -8,9 +8,10 @@ import android.provider.BaseColumns
 private const val SQL_CREATE_ENTRIES =
     "CREATE TABLE ${FlickrContract.FlickrEntry.TABLE_NAME} (" +
             "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-            "${FlickrContract.FlickrEntry.COLUMN_NAME_PHOTO_ID} LONG," +
+            "${FlickrContract.FlickrEntry.COLUMN_NAME_PHOTO_ID} TEXT," +
             "${FlickrContract.FlickrEntry.COLUMN_NAME_SECRET} TEXT," +
-            "${FlickrContract.FlickrEntry.COLUMN_NAME_SERVER} INTEGER)"
+            "${FlickrContract.FlickrEntry.COLUMN_NAME_SERVER} INTEGER," +
+            "${FlickrContract.FlickrEntry.COLUMN_NAME_FARM} INTEGER)"
 
 private const val SQL_DELETE_ENTRIES =
     "DROP TABLE IF EXISTS ${FlickrContract.FlickrEntry.TABLE_NAME}"

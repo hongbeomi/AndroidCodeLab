@@ -8,5 +8,6 @@ object FlickrContract {
         const val COLUMN_NAME_PHOTO_ID = "photo_id"
         const val COLUMN_NAME_SECRET = "secret"
         const val COLUMN_NAME_SERVER = "server"
+        const val COLUMN_NAME_FARM = "farm"
     }
 }

@@ -1,25 +1,23 @@
 package com.github.hongbeomi.flickrcodelab.data.source.local.sqlite
 
 import android.content.ContentValues
+import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.COLUMN_NAME_FARM
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.COLUMN_NAME_PHOTO_ID
+import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.COLUMN_NAME_SECRET
+import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.COLUMN_NAME_SERVER
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.TABLE_NAME
 import com.github.hongbeomi.flickrcodelab.model.Photo
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class FlickrDao(
-    flickrSqliteHelper: FlickrSqliteHelper,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
+class FlickrDao(flickrSqliteHelper: FlickrSqliteHelper) {
 
     private val writeDb = flickrSqliteHelper.writableDatabase
     private val readDb = flickrSqliteHelper.readableDatabase
 
     private val _itemList: MutableStateFlow<List<Photo>> = MutableStateFlow(listOf())
-    val itemList: StateFlow<List<Photo>> get() = _itemList
+    private val itemList: StateFlow<List<Photo>> get() = _itemList
 
     fun getAll(): Flow<List<Photo>> = itemList
 
@@ -52,7 +50,7 @@ class FlickrDao(
                 TABLE_NAME,
                 content,
                 where,
-                arrayOf(it.id.toString())
+                arrayOf(it.id)
             )
         }
         updateItemList()
@@ -61,8 +59,9 @@ class FlickrDao(
     private fun updateItemList() {
         val projection = arrayOf(
             COLUMN_NAME_PHOTO_ID,
-            FlickrContract.FlickrEntry.COLUMN_NAME_SECRET,
-            FlickrContract.FlickrEntry.COLUMN_NAME_SERVER
+            COLUMN_NAME_SECRET,
+            COLUMN_NAME_SERVER,
+            COLUMN_NAME_FARM
         )
         val cursor = readDb.query(TABLE_NAME, projection, null, emptyArray(), null, null, null)
 
@@ -70,18 +69,13 @@ class FlickrDao(
 
         with(cursor) {
             while (moveToNext()) {
-                val photoId = getLong(
-                    getColumnIndexOrThrow(
-                        COLUMN_NAME_PHOTO_ID
-                    )
-                )
-                val secret =
-                    getString(getColumnIndexOrThrow(FlickrContract.FlickrEntry.COLUMN_NAME_SECRET))
-                val server =
-                    getInt(getColumnIndexOrThrow(FlickrContract.FlickrEntry.COLUMN_NAME_SERVER))
+                val photoId = getString(getColumnIndexOrThrow(COLUMN_NAME_PHOTO_ID))
+                val secret = getString(getColumnIndexOrThrow(COLUMN_NAME_SECRET))
+                val server = getInt(getColumnIndexOrThrow(COLUMN_NAME_SERVER))
+                val farm = getInt(getColumnIndexOrThrow(COLUMN_NAME_FARM))
 
                 items.add(
-                    Photo(id = photoId, secret = secret, server = server)
+                    Photo(id = photoId, secret = secret, server = server, farm = farm)
                 )
             }
             close()
@@ -97,8 +91,9 @@ class FlickrDao(
     private fun Photo.toContentValues(): ContentValues {
         return ContentValues().apply {
             put(COLUMN_NAME_PHOTO_ID, id)
-            put(FlickrContract.FlickrEntry.COLUMN_NAME_SECRET, secret)
-            put(FlickrContract.FlickrEntry.COLUMN_NAME_SERVER, server)
+            put(COLUMN_NAME_SECRET, secret)
+            put(COLUMN_NAME_SERVER, server)
+            put(COLUMN_NAME_FARM, farm)
         }
     }
 
