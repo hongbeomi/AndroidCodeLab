@@ -9,9 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
 
-class FilckrDao(
+class FlickrDao(
     flickrSqliteHelper: FlickrSqliteHelper,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
@@ -24,12 +23,12 @@ class FilckrDao(
 
     fun getAll(): Flow<List<Photo>> = itemList
 
-    suspend fun deleteAll() = withContext(dispatcher) {
+    fun deleteAll() {
         writeDb.delete(TABLE_NAME, null, null)
         updateItemList()
     }
 
-    suspend fun insertAll(newPhotoList: List<Photo>) = withContext(dispatcher) {
+    fun insertAll(newPhotoList: List<Photo>) {
         newPhotoList.forEach {
             val contentValues = it.toContentValues()
             val result = writeDb.insert(
@@ -44,7 +43,7 @@ class FilckrDao(
         updateItemList()
     }
 
-    suspend fun update(newPhotoList: List<Photo>) = withContext(dispatcher) {
+    fun update(newPhotoList: List<Photo>) {
         val where = "$COLUMN_NAME_PHOTO_ID ?"
 
         newPhotoList.forEach {
@@ -59,7 +58,7 @@ class FilckrDao(
         updateItemList()
     }
 
-    private suspend fun updateItemList() = withContext(dispatcher) {
+    private fun updateItemList() {
         val projection = arrayOf(
             COLUMN_NAME_PHOTO_ID,
             FlickrContract.FlickrEntry.COLUMN_NAME_SECRET,
@@ -88,6 +87,11 @@ class FilckrDao(
             close()
         }
         _itemList.value = items
+    }
+
+    fun close() {
+        writeDb.close()
+        readDb.close()
     }
 
     private fun Photo.toContentValues(): ContentValues {
