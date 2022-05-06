@@ -1,5 +1,4 @@
-package com.github.hongbeomi.flickrcodelab.data.remote.response
-
+package com.github.hongbeomi.flickrcodelab.model.remote
 
 data class PhotoResponse(
     val id: Long,
@@ -11,4 +10,3 @@ data class PhotoResponse(
     val isfriend: Int,
     val isfamily: Int
 )
-

@@ -1,9 +1,9 @@
-package com.github.hongbeomi.flickrcodelab.data.remote.response
+package com.github.hongbeomi.flickrcodelab.model.remote
 
 data class PhotosResponse(
     val page: Int,
     val pages: Int,
     val perpage: Int,
     val total: Int,
-    val photos: List<PhotoResponse>
+    val photoList: List<PhotoResponse>
 )
