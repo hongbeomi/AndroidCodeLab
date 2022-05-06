@@ -4,5 +4,6 @@ data class PhotosResponse(
     val page: Int,
     val pages: Int,
     val perpage: Int,
-    val total: Int
+    val total: Int,
+    val photos: List<PhotoResponse>
 )
