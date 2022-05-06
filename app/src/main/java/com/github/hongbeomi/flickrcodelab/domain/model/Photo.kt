@@ -1,4 +1,4 @@
-package com.github.hongbeomi.flickrcodelab.data.repository
+package com.github.hongbeomi.flickrcodelab.domain.model
 
 data class Photo(
     val id: Long,
