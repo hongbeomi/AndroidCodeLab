@@ -2,10 +2,11 @@ package com.github.hongbeomi.flickrcodelab.data.source.remote
 
 import com.github.hongbeomi.flickrcodelab.data.source.PhotosDataSource
 import com.github.hongbeomi.flickrcodelab.model.Photo
+import kotlinx.coroutines.flow.Flow
 
 class PhotosRemoteDataSource: PhotosDataSource {
 
-    override suspend fun getRecentPhotoList(): Result<List<Photo>> {
+    override suspend fun getRecentPhotoList(): Flow<List<Photo>> {
         TODO("Not yet implemented")
     }
 

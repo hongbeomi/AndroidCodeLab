@@ -4,6 +4,7 @@ import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotosRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.FakePhotosDataSource
 import com.github.hongbeomi.flickrcodelab.model.Photo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
@@ -47,7 +48,7 @@ class DefaultPhotosRepositoryTest {
         val photoList = defaultPhotosRepository.getAllPhotos()
 
         // then
-        assertThat(photoList.getOrNull(), IsEqual(remotePhotoList))
+        assertThat(photoList.single(), IsEqual(remotePhotoList))
     }
 
 }
