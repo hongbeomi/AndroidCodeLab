@@ -15,12 +15,13 @@ import org.junit.Test
 class DefaultPhotosRepositoryTest {
 
     private val photo1 = Photo(
-        id = 1,
+        id = "1",
+        farm = 1,
         secret = "secret1",
         server = 1
     )
-    private val photo2 = Photo(id = 2, secret = "secret2", server = 2)
-    private val photo3 = Photo(id = 3, secret = "secret3", server = 2)
+    private val photo2 = Photo(id = "2", farm = 2, secret = "secret2", server = 2)
+    private val photo3 = Photo(id = "3", farm = 3, secret = "secret3", server = 2)
     private val remotePhotoList = mutableListOf(photo1, photo2, photo3)
     private val localPhotoList = mutableListOf(photo1)
 
@@ -37,6 +38,15 @@ class DefaultPhotosRepositoryTest {
             photosLocalDataSource,
             photosRemoteDataSource
         )
+    }
+
+    @Test
+    fun givenNotRefreshPhotos_whenGetAllPhotos_thenLocalPhotos() = runBlockingTest {
+        // when
+        val photoList=  defaultPhotosRepository.getAllPhotos()
+
+        // then
+        assertThat(photoList.single(), IsEqual(localPhotoList))
     }
 
     @Test

@@ -1,22 +1,22 @@
 package com.github.hongbeomi.flickrcodelab.data.source.local
 
 import com.github.hongbeomi.flickrcodelab.data.source.PhotosDataSource
-import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrDao
+import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrDatabase
 import com.github.hongbeomi.flickrcodelab.model.Photo
 import kotlinx.coroutines.flow.Flow
 
 class PhotosLocalDataSource(
-    private val flickrDao: FlickrDao
+    private val flickrDatabase: FlickrDatabase
 ): PhotosDataSource {
 
-    override suspend fun getRecentPhotoList(): Flow<List<Photo>> = flickrDao.getAll()
+    override suspend fun getRecentPhotoList(): Flow<List<Photo>> = flickrDatabase.getAll()
 
     override suspend fun deleteAllPhotoList() {
-        flickrDao.deleteAll()
+        flickrDatabase.deleteAll()
     }
 
     override suspend fun savePhotoList(value: List<Photo>) {
-        flickrDao.insertAll(value)
+        flickrDatabase.insertAll(value)
     }
 
 }

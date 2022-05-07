@@ -5,14 +5,14 @@ import androidx.annotation.VisibleForTesting
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotosRepository
 import com.github.hongbeomi.flickrcodelab.data.source.PhotosRepository
 import com.github.hongbeomi.flickrcodelab.data.source.local.PhotosLocalDataSource
-import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrDao
+import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrDatabase
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrSqliteHelper
 import com.github.hongbeomi.flickrcodelab.data.source.remote.PhotosRemoteDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.connection.FlickrNetworkService
 
 object ServiceLocator {
 
-    private var database: FlickrDao? = null
+    private var database: FlickrDatabase? = null
     private var network: FlickrNetworkService? = null
 
     @Volatile
@@ -61,12 +61,12 @@ object ServiceLocator {
     }
 
     private fun createPhotosLocalDataSource(context: Context): PhotosLocalDataSource {
-        val dao = database ?: createDao(context)
+        val dao = database ?: createDatabase(context)
         return PhotosLocalDataSource(dao)
     }
 
-    private fun createDao(context: Context): FlickrDao {
-        val result = FlickrDao(
+    private fun createDatabase(context: Context): FlickrDatabase {
+        val result = FlickrDatabase(
             FlickrSqliteHelper(context)
         )
         database = result

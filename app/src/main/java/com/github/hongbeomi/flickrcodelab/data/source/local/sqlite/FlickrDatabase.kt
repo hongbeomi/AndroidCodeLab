@@ -7,11 +7,14 @@ import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContrac
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.COLUMN_NAME_SERVER
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.TABLE_NAME
 import com.github.hongbeomi.flickrcodelab.model.Photo
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class FlickrDao(flickrSqliteHelper: FlickrSqliteHelper) {
+class FlickrDatabase(
+    flickrSqliteHelper: FlickrSqliteHelper
+) {
 
     private val writeDb = flickrSqliteHelper.writableDatabase
     private val readDb = flickrSqliteHelper.readableDatabase
@@ -63,22 +66,25 @@ class FlickrDao(flickrSqliteHelper: FlickrSqliteHelper) {
             COLUMN_NAME_SERVER,
             COLUMN_NAME_FARM
         )
-        val cursor = readDb.query(TABLE_NAME, projection, null, emptyArray(), null, null, null)
-
         val items = mutableListOf<Photo>()
 
-        with(cursor) {
-            while (moveToNext()) {
-                val photoId = getString(getColumnIndexOrThrow(COLUMN_NAME_PHOTO_ID))
-                val secret = getString(getColumnIndexOrThrow(COLUMN_NAME_SECRET))
-                val server = getInt(getColumnIndexOrThrow(COLUMN_NAME_SERVER))
-                val farm = getInt(getColumnIndexOrThrow(COLUMN_NAME_FARM))
+        try {
+            val cursor = readDb.query(TABLE_NAME, projection, null, emptyArray(), null, null, null)
+            with(cursor) {
+                while (moveToNext()) {
+                    val photoId = getString(getColumnIndexOrThrow(COLUMN_NAME_PHOTO_ID))
+                    val secret = getString(getColumnIndexOrThrow(COLUMN_NAME_SECRET))
+                    val server = getInt(getColumnIndexOrThrow(COLUMN_NAME_SERVER))
+                    val farm = getInt(getColumnIndexOrThrow(COLUMN_NAME_FARM))
 
-                items.add(
-                    Photo(id = photoId, secret = secret, server = server, farm = farm)
-                )
+                    items.add(
+                        Photo(id = photoId, secret = secret, server = server, farm = farm)
+                    )
+                }
             }
-            close()
+            cursor.close()
+        } catch (e: Exception) {
+            println(e)
         }
         _itemList.value = items
     }
