@@ -7,7 +7,6 @@ import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContrac
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.COLUMN_NAME_SERVER
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrContract.FlickrEntry.TABLE_NAME
 import com.github.hongbeomi.flickrcodelab.model.Photo
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

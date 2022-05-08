@@ -17,6 +17,7 @@ import javax.net.ssl.HttpsURLConnection
 
 
 private const val NETWORK_TIMEOUT = 10000
+private const val PER_PAGE = 60
 
 class FlickrNetworkService(
     context: Context,
@@ -24,14 +25,20 @@ class FlickrNetworkService(
 ) {
 
     private val defaultQuery =
-        "&api_key=${context.getString(R.string.api_key)}&format=json&nojsoncallback=?"
+        "&api_key=${context.getString(R.string.api_key)}&format=json&nojsoncallback=1&tags=soccer"
     private val format = Json {
         coerceInputValues = true
         ignoreUnknownKeys = true
     }
 
-    suspend fun getRecentPhotos(): PhotosResponse = withContext(dispatcher) {
-        URL(BuildConfig.BASE_URL + ServiceMethod.GET_RECENT.method + defaultQuery)
+    suspend fun getSoccerPhotos(page: Int): PhotosResponse = withContext(dispatcher) {
+        URL(
+            BuildConfig.BASE_URL +
+                    ServiceMethod.GET_SEARCH.method +
+                    defaultQuery +
+                    "&per_page=$PER_PAGE" +
+                    "&page=$page"
+        )
             .createHttpUrlConnection()
             ?.run {
                 requestMethod = RequestMethod.GET.name
