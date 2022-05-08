@@ -2,8 +2,8 @@ package com.github.hongbeomi.flickrcodelab.di
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
-import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotosRepository
-import com.github.hongbeomi.flickrcodelab.data.source.PhotosRepository
+import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
+import com.github.hongbeomi.flickrcodelab.data.source.PhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.local.PhotosLocalDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrDatabase
 import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrSqliteHelper
@@ -16,7 +16,7 @@ object ServiceLocator {
     private var network: FlickrNetworkService? = null
 
     @Volatile
-    var photosRepository: PhotosRepository? = null
+    var photoListRepository: PhotoListRepository? = null
         @VisibleForTesting set
 
     private val lock = Any()
@@ -30,22 +30,22 @@ object ServiceLocator {
             }
             database = null
             network = null
-            photosRepository = null
+            photoListRepository = null
         }
     }
 
-    fun providePhotosRepository(context: Context): PhotosRepository {
+    fun providePhotosRepository(context: Context): PhotoListRepository {
         synchronized(this) {
-            return photosRepository ?: createPhotosRepository(context)
+            return photoListRepository ?: createPhotoListRepository(context)
         }
     }
 
-    private fun createPhotosRepository(context: Context): PhotosRepository {
-        val newRepo = DefaultPhotosRepository(
+    private fun createPhotoListRepository(context: Context): PhotoListRepository {
+        val newRepo = DefaultPhotoListRepository(
             localPhotosDataSource = createPhotosLocalDataSource(context),
             remotePhotosDataSource = createPhotosRemoteDataSource(context)
         )
-        photosRepository = newRepo
+        photoListRepository = newRepo
         return newRepo
     }
 
