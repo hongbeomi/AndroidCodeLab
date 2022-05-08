@@ -9,7 +9,7 @@ class FakePhotosDataSource(
     var photoList: MutableList<Photo> = mutableListOf()
 ) : PhotosDataSource {
 
-    override suspend fun getRecentPhotoList(): Flow<List<Photo>> {
+    override suspend fun getSearchPhotoList(page: Int): Flow<List<Photo>> {
         return flowOf(photoList)
     }
 
@@ -17,7 +17,7 @@ class FakePhotosDataSource(
         photoList.clear()
     }
 
-    override suspend fun savePhotoList(value: List<Photo>) {
+    override suspend fun insertPhotoList(value: List<Photo>) {
         photoList.addAll(value)
     }
 

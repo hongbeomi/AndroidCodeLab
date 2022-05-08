@@ -9,13 +9,13 @@ class PhotosLocalDataSource(
     private val flickrDatabase: FlickrDatabase
 ): PhotosDataSource {
 
-    override suspend fun getRecentPhotoList(): Flow<List<Photo>> = flickrDatabase.getAll()
+    override suspend fun getSearchPhotoList(page: Int): Flow<List<Photo>> = flickrDatabase.getAll()
 
     override suspend fun deleteAllPhotoList() {
         flickrDatabase.deleteAll()
     }
 
-    override suspend fun savePhotoList(value: List<Photo>) {
+    override suspend fun insertPhotoList(value: List<Photo>) {
         flickrDatabase.insertAll(value)
     }
 
