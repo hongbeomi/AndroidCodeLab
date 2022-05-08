@@ -34,7 +34,7 @@ class DefaultPhotoListRepositoryTest {
     }
 
     @Test
-    fun givenNotRefreshPhotos_whenGetAllPhotos_thenLocalPhotos() = runTest {
+    fun givenNotRefreshPhotos_WhenGetAllPhotos_ThenLocalPhotos() = runTest {
         // when
         val photoList = defaultPhotosRepository.getAllPhotoList()
 
@@ -43,7 +43,7 @@ class DefaultPhotoListRepositoryTest {
     }
 
     @Test
-    fun givenRefreshPhotos_whenGetAllPhotos_thenUpdateRemotePhotos() = runTest {
+    fun givenRefreshPhotos_WhenGetAllPhotos_ThenUpdateRemotePhotos() = runTest {
         // given
         defaultPhotosRepository.refreshPhotoList()
 
@@ -52,6 +52,18 @@ class DefaultPhotoListRepositoryTest {
 
         // then
         assertThat(photoList.single(), IsEqual(remotePhotoList))
+    }
+
+    @Test
+    fun givenNextPage_WhenLoadMorePhotos_ThenAddedPhotos() = runTest {
+        // given & when
+        defaultPhotosRepository.refreshPhotoList()
+        defaultPhotosRepository.loadMorePhotoList(2)
+
+        //then
+        val photoList = defaultPhotosRepository.getAllPhotoList()
+
+        assertThat(photoList.single(), IsEqual(remotePhotoList + remotePhotoList))
     }
 
 }

@@ -6,10 +6,7 @@ import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -67,5 +64,24 @@ class MainViewModelTest {
         assertThat(success.photoList, IsEqual(remoteData))
     }
 
+    @Test
+    fun givenNextPage_WhenLoadMore_ThenLoadingMoreAndAddedPhotoList() = runTest {
+        // given
+        val remoteData = listOf(factory.photo1, factory.photo2, factory.photo3)
+        repository.addPhotoList(*remoteData.toTypedArray())
+
+        // loading, success
+        viewModel.refresh(true)
+        viewModel.loadMore()
+
+        // then
+        val result = viewModel.mainUiState.drop(2).toList()
+
+        val loadingMore = result.first() as MainViewModel.MainUiState.LoadingMore
+        val success = result.last() as MainViewModel.MainUiState.Success
+
+        assertThat(loadingMore, IsEqual(MainViewModel.MainUiState.LoadingMore))
+        assertThat(success.photoList, IsEqual(remoteData + remoteData))
+    }
 
 }

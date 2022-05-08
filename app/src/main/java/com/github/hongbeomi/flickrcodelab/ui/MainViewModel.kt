@@ -39,6 +39,12 @@ class MainViewModel(
         }
     }
 
+    fun loadMore() {
+        viewModelScope.launch(exceptionHandler) {
+
+        }
+    }
+
     override fun onCleared() {
         viewModelScope.coroutineContext.cancel()
         super.onCleared()
@@ -47,6 +53,7 @@ class MainViewModel(
     sealed class MainUiState {
         class Success(val photoList: List<Photo> = emptyList()) : MainUiState()
         object Loading : MainUiState()
+        object LoadingMore: MainUiState()
         class Error(val exception: Throwable) : MainUiState()
     }
 
