@@ -15,9 +15,6 @@ class PhotosRemoteDataSource(
 
     override suspend fun getSearchPhotoList(page: Int): Flow<List<Photo>> {
         val photoList = networkService.getSoccerPhotos(page).photo
-        if (photoList.isEmpty()) {
-            throw IllegalStateException(EXCEPTION_MESSAGE_LIST_EMPTY)
-        }
         return flow { emit(photoList.map { it.toDomain() }) }
     }
 
