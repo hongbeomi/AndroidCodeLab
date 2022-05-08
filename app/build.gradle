@@ -14,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
 
         buildConfigField "String", "BASE_URL", '"https://api.flickr.com/services/rest/?method=flickr.photos"'
     }
@@ -37,6 +38,9 @@ android {
             java.srcDir sharedTestDir
         }
     }
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -52,11 +56,21 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayout"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     testImplementation "junit:junit:${junitVersion}"
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
     androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
+    androidTestUtil "androidx.test:orchestrator:$orchestratorVersion"
+
 }
