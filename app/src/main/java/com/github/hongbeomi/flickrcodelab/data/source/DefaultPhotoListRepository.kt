@@ -35,11 +35,14 @@ class DefaultPhotoListRepository(
         }
     }
 
-    override suspend fun loadMorePhotoList(page: Int) = withContext(dispatcher) {
+    override suspend fun loadMorePhotoList(page: Int): Boolean = withContext(dispatcher) {
         val newPhotoList = remotePhotosDataSource.getSearchPhotoList(page)
 
-        newPhotoList.collect {
-            localPhotosDataSource.insertPhotoList(it)
+        return@withContext if (newPhotoList.single().isNotEmpty()) {
+            newPhotoList.collect { localPhotosDataSource.insertPhotoList(it) }
+            true
+        } else {
+            false
         }
     }
 
