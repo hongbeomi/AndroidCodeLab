@@ -47,10 +47,12 @@ class FakePhotoListRepository : PhotoListRepository {
     }
 
     override suspend fun loadMorePhotoList(page: Int): Boolean {
-        photosLocalFlow.update {
-            it + photosServiceData
+        wrapEspressoIdlingResource(isUseIdlingResource) {
+            photosLocalFlow.update {
+                it + photosServiceData
+            }
+            return true
         }
-        return true
     }
 
     override suspend fun getAllPhotoList(isForceUpdate: Boolean): Flow<List<Photo>> {
