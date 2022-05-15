@@ -5,6 +5,7 @@ import com.github.hongbeomi.flickrcodelab.TestCoroutineRule
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
+import com.github.hongbeomi.flickrcodelab.ui.main.MainViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*

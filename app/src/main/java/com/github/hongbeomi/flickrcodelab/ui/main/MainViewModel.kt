@@ -1,4 +1,4 @@
-package com.github.hongbeomi.flickrcodelab.ui
+package com.github.hongbeomi.flickrcodelab.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

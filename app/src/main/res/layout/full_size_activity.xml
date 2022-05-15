@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView_full_size_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:background="@android:color/black"/>
+
+        <ImageButton
+            android:id="@+id/imageButton_full_size_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/full_size_image_close_button_padding"
+            android:layout_gravity="top|end"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_delete" />
+
+    </FrameLayout>
+</layout>

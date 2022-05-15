@@ -6,14 +6,14 @@
     <data>
         <variable
             name="vm"
-            type="com.github.hongbeomi.flickrcodelab.ui.MainViewModel" />
+            type="com.github.hongbeomi.flickrcodelab.ui.main.MainViewModel" />
         <import type="android.view.View"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.main.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
