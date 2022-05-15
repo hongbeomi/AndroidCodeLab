@@ -21,6 +21,7 @@ import com.github.hongbeomi.flickrcodelab.di.ServiceLocator
 import com.github.hongbeomi.flickrcodelab.monitorActivity
 import com.github.hongbeomi.flickrcodelab.utils.EspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -29,6 +30,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
