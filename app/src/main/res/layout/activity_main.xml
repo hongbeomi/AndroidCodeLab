@@ -7,7 +7,6 @@
         <variable
             name="vm"
             type="com.github.hongbeomi.flickrcodelab.ui.MainViewModel" />
-        <import type="com.github.hongbeomi.flickrcodelab.ui.MainViewModel.MainUiState"/>
         <import type="android.view.View"/>
     </data>
 
