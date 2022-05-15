@@ -32,13 +32,7 @@ class FlickrNetworkService(
     }
 
     suspend fun getSoccerPhotos(page: Int): PhotosResponse = withContext(dispatcher) {
-        URL(
-            BuildConfig.BASE_URL +
-                    ServiceMethod.GET_SEARCH.method +
-                    defaultQuery +
-                    "&per_page=$PER_PAGE" +
-                    "&page=$page"
-        )
+        createUrl(page)
             .createHttpUrlConnection()
             ?.run {
                 requestMethod = RequestMethod.GET.name
@@ -51,6 +45,16 @@ class FlickrNetworkService(
                 disconnect()
             }
         throw IOException("Failed call network")
+    }
+
+    private fun createUrl(page: Int): URL {
+        return URL(
+            BuildConfig.BASE_URL +
+                    ServiceMethod.GET_SEARCH.method +
+                    defaultQuery +
+                    "&per_page=$PER_PAGE" +
+                    "&page=$page"
+        )
     }
 
     private fun URL.createHttpUrlConnection(): HttpsURLConnection? {
