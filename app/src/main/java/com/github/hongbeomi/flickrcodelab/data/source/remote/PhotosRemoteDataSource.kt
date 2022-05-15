@@ -15,7 +15,9 @@ class PhotosRemoteDataSource(
 
     override suspend fun getSearchPhotoList(page: Int): Flow<List<Photo>> {
         val photoList = networkService.getSoccerPhotos(page).photo
-        return flow { emit(photoList.map { it.toDomain() }) }
+        return flow {
+            emit(photoList.map { it.toDomain() })
+        }
     }
 
     override suspend fun deleteAllPhotoList() {

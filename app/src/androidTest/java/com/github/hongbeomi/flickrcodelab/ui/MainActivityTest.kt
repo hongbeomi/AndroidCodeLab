@@ -10,8 +10,6 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
-import androidx.test.filters.MediumTest
 import com.github.hongbeomi.flickrcodelab.DataBindingIdlingResource
 import com.github.hongbeomi.flickrcodelab.R
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
@@ -19,12 +17,11 @@ import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
 import com.github.hongbeomi.flickrcodelab.di.ServiceLocator
 import com.github.hongbeomi.flickrcodelab.monitorActivity
+import com.github.hongbeomi.flickrcodelab.ui.main.MainActivity
 import com.github.hongbeomi.flickrcodelab.utils.EspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
