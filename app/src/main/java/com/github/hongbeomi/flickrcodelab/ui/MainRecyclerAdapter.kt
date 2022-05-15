@@ -3,10 +3,10 @@ package com.github.hongbeomi.flickrcodelab.ui
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.github.hongbeomi.flickrcodelab.R
@@ -16,30 +16,55 @@ import com.github.hongbeomi.flickrcodelab.model.getImageUrl
 
 class MainRecyclerAdapter(
     private val glideRequestManager: RequestManager
-) : ListAdapter<Photo, MainRecyclerAdapter.MainViewHolder>(
-    MainDiffCallback()
-) {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(
-            DataBindingUtil.inflate<ItemMainBinding?>(
-                LayoutInflater.from(parent.context),
-                R.layout.item_main,
-                parent,
-                false
-            ).apply {
-                imageViewItemMain.layoutParams.height = parent.width / 3
-            }
-        )
+    private var itemList: List<Photo> = listOf()
+
+    fun submitList(value: List<Photo>) {
+        itemList = value
+        notifyItemRangeChanged(0, itemCount)
     }
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            R.layout.item_main -> MainViewHolder(
+                DataBindingUtil.inflate<ItemMainBinding>(
+                    LayoutInflater.from(parent.context),
+                    R.layout.item_main,
+                    parent,
+                    false
+                ).apply {
+                    imageViewItemMain.layoutParams.height = parent.width / 3
+                }
+            )
+            else -> FooterViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_loading_footer,
+                    parent,
+                    false
+                )
+            )
+        }
     }
 
-    inner class MainViewHolder(
-        private val binding: ItemMainBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+    override fun getItemViewType(position: Int): Int {
+        return when (position) {
+            itemCount - 1 -> R.layout.item_loading_footer
+            else -> R.layout.item_main
+        }
+    }
+
+    override fun getItemCount() = itemList.size + 1
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = itemList.getOrNull(position)
+        if (holder is MainViewHolder && item != null) {
+            holder.bind(item)
+        }
+    }
+
+    inner class MainViewHolder(private val binding: ItemMainBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(photo: Photo) {
             with(binding) {
@@ -52,6 +77,7 @@ class MainRecyclerAdapter(
         }
     }
 
+    class FooterViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 }
 
 class MainDiffCallback : DiffUtil.ItemCallback<Photo>() {
