@@ -31,14 +31,14 @@
             android:id="@+id/swipeRefreshLayout_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{vm.mainUiState instanceof MainUiState.Success ? View.VISIBLE : View.GONE}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:overScrollMode="never"
+                android:visibility="@{vm.mainUiState.isSuccess() ? View.VISIBLE : View.GONE}"
                 tools:itemCount="20" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -47,14 +47,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:visibility="@{vm.mainUiState instanceof MainUiState.Error ? View.VISIBLE : View.GONE}"
+            android:visibility="@{vm.mainUiState.isError() ? View.VISIBLE : View.GONE}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
         <ProgressBar
             android:id="@+id/progressBar_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{vm.mainUiState instanceof MainUiState.Loading ? View.VISIBLE : View.GONE}"
+            android:visibility="@{vm.mainUiState.isLoading() ? View.VISIBLE : View.GONE}"
             android:layout_gravity="center"
             android:indeterminate="true"/>
 
