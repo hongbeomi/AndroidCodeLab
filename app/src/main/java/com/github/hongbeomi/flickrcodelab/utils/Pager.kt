@@ -2,22 +2,21 @@ package com.github.hongbeomi.flickrcodelab.utils
 
 class Pager {
 
-    private var pageIndex = START_PAGE_INDEX
+    private var currentPage = START_PAGE_INDEX
 
     suspend fun load(predicate: suspend (Int) -> Boolean?) {
-        val isSuccess = predicate(pageIndex)
-
+        val isSuccess = predicate(currentPage)
         if (isSuccess == true) {
             increment()
         }
     }
 
     private fun increment() {
-        pageIndex++
+        currentPage++
     }
 
     fun reset() {
-        pageIndex = START_PAGE_INDEX
+        currentPage = START_PAGE_INDEX
     }
 
     companion object {
