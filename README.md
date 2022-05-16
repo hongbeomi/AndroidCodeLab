@@ -9,5 +9,5 @@ Android CodeLab - with [Flickr](https://www.flickr.com/services/api/)
 - ``Main`` branch is implemented using only the basic library.
 
 ## Branch
-- main : default branch. local data source -> SQLite, remote data source -> HttpsURLConnection
-- room : local data source -> Room
+- **main** : default branch. local data source -> SQLite, remote data source -> HttpsURLConnection
+- **room** : local data source -> Room
