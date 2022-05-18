@@ -12,6 +12,7 @@ Android CodeLab - with [Flickr](https://www.flickr.com/services/api/)
 - AAC ViewModel, Lifecycle
 - Glide
 - Coroutine, Flow 
+- Test: Espresso, JUnit
 
 ## Branch
 - `main` : default branch
