@@ -1,5 +1,6 @@
 package com.github.hongbeomi.flickrcodelab.data.repository
 
+import com.github.hongbeomi.flickrcodelab.TestCoroutineRule
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
 import com.github.hongbeomi.flickrcodelab.data.source.remote.FakePhotoListDataSource
@@ -9,10 +10,14 @@ import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class DefaultPhotoListRepositoryTest {
+
+    @get:Rule
+    val coroutineRule = TestCoroutineRule()
 
     private val factory = FakePhotoDataFactory()
     private val remotePhotoList = mutableListOf(factory.photo1, factory.photo2, factory.photo3)
@@ -29,12 +34,13 @@ class DefaultPhotoListRepositoryTest {
 
         defaultPhotosRepository = DefaultPhotoListRepository(
             photosLocalDataSource,
-            photosRemoteDataSource
+            photosRemoteDataSource,
+            coroutineRule.dispatcher
         )
     }
 
     @Test
-    fun givenNotRefreshPhotos_WhenGetAllPhotos_ThenLocalPhotos() = runTest {
+    fun givenEmptyPhotoList_WhenGetAllPhotoList_ThenLocalPhotoList() = runTest {
         // when
         val photoList = defaultPhotosRepository.getAllPhotoList()
 
@@ -43,7 +49,7 @@ class DefaultPhotoListRepositoryTest {
     }
 
     @Test
-    fun givenRefreshPhotos_WhenGetAllPhotos_ThenUpdateRemotePhotos() = runTest {
+    fun givenRefreshPhotoList_WhenGetAllPhotoList_ThenUpdateRemotePhotoList() = runTest {
         // given
         defaultPhotosRepository.refreshPhotoList()
 
@@ -55,7 +61,7 @@ class DefaultPhotoListRepositoryTest {
     }
 
     @Test
-    fun givenNextPage_WhenLoadMorePhotos_ThenAddedPhotos() = runTest {
+    fun givenNextPage_WhenLoadMorePhotoList_ThenAddedPhotoList() = runTest {
         // given & when
         defaultPhotosRepository.refreshPhotoList()
         defaultPhotosRepository.loadMorePhotoList(2)

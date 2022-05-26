@@ -1,4 +1,4 @@
-package com.github.hongbeomi.flickrcodelab.data.source.local
+package com.github.hongbeomi.flickrcodelab.data.source.local.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -1,6 +1,7 @@
 package com.github.hongbeomi.flickrcodelab.data.source.local
 
 import com.github.hongbeomi.flickrcodelab.data.source.PhotoListDataSource
+import com.github.hongbeomi.flickrcodelab.data.source.local.room.FlickrDao
 import com.github.hongbeomi.flickrcodelab.model.Photo
 import com.github.hongbeomi.flickrcodelab.model.local.toDomain
 import com.github.hongbeomi.flickrcodelab.model.local.toEntity

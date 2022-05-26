@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
+import com.github.hongbeomi.flickrcodelab.data.source.local.room.FlickrDatabase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take

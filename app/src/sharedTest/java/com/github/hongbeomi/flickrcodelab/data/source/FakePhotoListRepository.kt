@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.update
 class FakePhotoListRepository : PhotoListRepository {
 
     // network
-    private var photosServiceData: MutableList<Photo> = mutableListOf()
+    private var photoListServiceData: MutableList<Photo> = mutableListOf()
 
     // local
-    private val photosLocalFlow: MutableStateFlow<List<Photo>> = MutableStateFlow(emptyList())
+    private val photoListLocalFlow: MutableStateFlow<List<Photo>> = MutableStateFlow(emptyList())
 
     private var shouldReturnError = false
     private var isUseIdlingResource = false
@@ -33,23 +33,23 @@ class FakePhotoListRepository : PhotoListRepository {
             throw Exception("Test Exception")
         }
         val newPhotoListFlow = flow {
-            val photoList = photosServiceData
+            val photoList = photoListServiceData
+            delay(500)
             emit(photoList)
         }
 
         newPhotoListFlow.collect {
-            delay(500)
             if (it.isEmpty()) {
                 throw IllegalStateException(EXCEPTION_MESSAGE_LIST_EMPTY)
             }
-            photosLocalFlow.value = it
+            photoListLocalFlow.value = it
         }
     }
 
     override suspend fun loadMorePhotoList(page: Int): Boolean {
         wrapEspressoIdlingResource(isUseIdlingResource) {
-            photosLocalFlow.update {
-                it + photosServiceData
+            photoListLocalFlow.update {
+                it + photoListServiceData
             }
             return true
         }
@@ -60,12 +60,12 @@ class FakePhotoListRepository : PhotoListRepository {
             if (isForceUpdate) {
                 refreshPhotoList()
             }
-            return photosLocalFlow
+            return photoListLocalFlow
         }
     }
 
     fun addPhotoList(vararg photo: Photo) {
-        photosServiceData.addAll(photo)
+        photoListServiceData.addAll(photo)
     }
 
 }

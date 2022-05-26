@@ -5,7 +5,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.room.Room
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.PhotoListRepository
-import com.github.hongbeomi.flickrcodelab.data.source.local.FlickrDatabase
+import com.github.hongbeomi.flickrcodelab.data.source.local.room.FlickrDatabase
 import com.github.hongbeomi.flickrcodelab.data.source.local.PhotoListLocalDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.PhotoListRemoteDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.connection.FlickrNetworkService
@@ -24,9 +24,7 @@ object ServiceLocator {
     @VisibleForTesting
     fun resetRepository() {
         synchronized(lock) {
-            database?.flickrDao()?.apply {
-                deleteAll()
-            }
+            database?.flickrDao()?.deleteAll()
             database = null
             network = null
             photoListRepository = null
