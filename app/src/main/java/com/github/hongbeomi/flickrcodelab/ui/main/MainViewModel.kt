@@ -8,7 +8,6 @@ import com.github.hongbeomi.flickrcodelab.utils.Pager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-@FlowPreview
 class MainViewModel(
     private val photoListRepository: PhotoListRepository
 ) : ViewModel() {
@@ -100,7 +99,6 @@ class MainViewModel(
 
 }
 
-@FlowPreview
 @Suppress("UNCHECKED_CAST")
 class MainViewModelFactory(
     private val photoListRepository: PhotoListRepository

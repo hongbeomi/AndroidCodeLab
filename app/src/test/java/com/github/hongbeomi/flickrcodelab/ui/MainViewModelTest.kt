@@ -7,8 +7,8 @@ import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
 import com.github.hongbeomi.flickrcodelab.ui.main.MainViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@FlowPreview
 @ExperimentalCoroutinesApi
 class MainViewModelTest {
 
