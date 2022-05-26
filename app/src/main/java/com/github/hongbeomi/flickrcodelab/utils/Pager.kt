@@ -2,7 +2,8 @@ package com.github.hongbeomi.flickrcodelab.utils
 
 class Pager {
 
-    private var currentPage = START_PAGE_INDEX
+    var currentPage = START_PAGE_INDEX
+        private set
 
     suspend fun load(predicate: suspend (Int) -> Boolean?) {
         val isSuccess = predicate(currentPage)
