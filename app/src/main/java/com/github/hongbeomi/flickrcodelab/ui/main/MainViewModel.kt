@@ -24,7 +24,7 @@ class MainViewModel(
         SupervisorJob() + Dispatchers.Main.immediate
     )
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        _mainUiState.value = MainUiState.Error(throwable)
+        _mainUiState.update { MainUiState.Error(throwable) }
     }
 
     init {
@@ -55,7 +55,9 @@ class MainViewModel(
                 photoListRepository
                     .getAllPhotoList(isForceUpdate)
                     .distinctUntilChanged()
-                    .collect { _mainUiState.value = MainUiState.Success(it) }
+                    .collect { photoList ->
+                        _mainUiState.update { MainUiState.Success(photoList) }
+                    }
                 (_mainUiState.value as? MainUiState.Success)?.photoList?.isNotEmpty()
             }
 
