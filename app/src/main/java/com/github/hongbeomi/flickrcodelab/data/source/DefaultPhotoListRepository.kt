@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.withContext
 
 class DefaultPhotoListRepository(
-    private val localPhotosDataSource: PhotosDataSource,
-    private val remotePhotosDataSource: PhotosDataSource,
+    private val localPhotoListDataSource: PhotoListDataSource,
+    private val remotePhotoListDataSource: PhotoListDataSource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PhotoListRepository {
 
@@ -19,27 +19,27 @@ class DefaultPhotoListRepository(
             if (isForceUpdate) {
                 refreshPhotoList()
             }
-            localPhotosDataSource.getSearchPhotoList()
+            localPhotoListDataSource.getSearchPhotoList()
         }
 
     override suspend fun refreshPhotoList() = withContext(dispatcher) {
-        val newPhotoList = remotePhotosDataSource.getSearchPhotoList()
+        val newPhotoList = remotePhotoListDataSource.getSearchPhotoList()
 
         if (newPhotoList.single().isEmpty()) {
             throw IllegalStateException(EXCEPTION_MESSAGE_LIST_EMPTY)
         }
 
         newPhotoList.collect {
-            localPhotosDataSource.deleteAllPhotoList()
-            localPhotosDataSource.insertPhotoList(it)
+            localPhotoListDataSource.deleteAllPhotoList()
+            localPhotoListDataSource.insertPhotoList(it)
         }
     }
 
     override suspend fun loadMorePhotoList(page: Int): Boolean = withContext(dispatcher) {
-        val newPhotoList = remotePhotosDataSource.getSearchPhotoList(page)
+        val newPhotoList = remotePhotoListDataSource.getSearchPhotoList(page)
 
         return@withContext if (newPhotoList.single().isNotEmpty()) {
-            newPhotoList.collect { localPhotosDataSource.insertPhotoList(it) }
+            newPhotoList.collect { localPhotoListDataSource.insertPhotoList(it) }
             true
         } else {
             false

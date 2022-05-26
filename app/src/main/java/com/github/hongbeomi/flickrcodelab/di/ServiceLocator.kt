@@ -6,8 +6,8 @@ import androidx.room.Room
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.PhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.local.FlickrDatabase
-import com.github.hongbeomi.flickrcodelab.data.source.local.PhotosLocalDataSource
-import com.github.hongbeomi.flickrcodelab.data.source.remote.PhotosRemoteDataSource
+import com.github.hongbeomi.flickrcodelab.data.source.local.PhotoListLocalDataSource
+import com.github.hongbeomi.flickrcodelab.data.source.remote.PhotoListRemoteDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.connection.FlickrNetworkService
 
 object ServiceLocator {
@@ -41,16 +41,16 @@ object ServiceLocator {
 
     private fun createPhotoListRepository(context: Context): PhotoListRepository {
         val newRepo = DefaultPhotoListRepository(
-            localPhotosDataSource = createPhotosLocalDataSource(context),
-            remotePhotosDataSource = createPhotosRemoteDataSource(context)
+            localPhotoListDataSource = createPhotosLocalDataSource(context),
+            remotePhotoListDataSource = createPhotosRemoteDataSource(context)
         )
         photoListRepository = newRepo
         return newRepo
     }
 
-    private fun createPhotosRemoteDataSource(context: Context): PhotosRemoteDataSource {
+    private fun createPhotosRemoteDataSource(context: Context): PhotoListRemoteDataSource {
         val result = network ?: createNetworkService(context)
-        return PhotosRemoteDataSource(result)
+        return PhotoListRemoteDataSource(result)
     }
 
     private fun createNetworkService(context: Context) : FlickrNetworkService {
@@ -59,9 +59,9 @@ object ServiceLocator {
         return result
     }
 
-    private fun createPhotosLocalDataSource(context: Context): PhotosLocalDataSource {
+    private fun createPhotosLocalDataSource(context: Context): PhotoListLocalDataSource {
         val dao = database ?: createDatabase(context)
-        return PhotosLocalDataSource(dao.flickrDao())
+        return PhotoListLocalDataSource(dao.flickrDao())
     }
 
     private fun createDatabase(context: Context): FlickrDatabase {

@@ -1,6 +1,6 @@
 package com.github.hongbeomi.flickrcodelab.data.source.remote
 
-import com.github.hongbeomi.flickrcodelab.data.source.PhotosDataSource
+import com.github.hongbeomi.flickrcodelab.data.source.PhotoListDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.connection.FlickrNetworkService
 import com.github.hongbeomi.flickrcodelab.model.Photo
 import com.github.hongbeomi.flickrcodelab.model.remote.toDomain
@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.flow
 
 internal const val EXCEPTION_MESSAGE_LIST_EMPTY = "Photo List is Empty!"
 
-class PhotosRemoteDataSource(
+class PhotoListRemoteDataSource(
     private val networkService: FlickrNetworkService
-) : PhotosDataSource {
+) : PhotoListDataSource {
 
     override suspend fun getSearchPhotoList(page: Int): Flow<List<Photo>> {
         val photoList = networkService.getSoccerPhotos(page).photo

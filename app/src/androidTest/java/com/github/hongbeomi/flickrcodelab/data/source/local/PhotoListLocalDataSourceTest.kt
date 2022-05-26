@@ -16,10 +16,10 @@ import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-class PhotosLocalDataSourceTest {
+class PhotoListLocalDataSourceTest {
 
     private lateinit var database: FlickrDatabase
-    private lateinit var localDataSource: PhotosLocalDataSource
+    private lateinit var localDataSource: PhotoListLocalDataSource
     private val factory = FakePhotoDataFactory()
 
     @Before
@@ -29,7 +29,7 @@ class PhotosLocalDataSourceTest {
             FlickrDatabase::class.java
         ).build()
 
-        localDataSource = PhotosLocalDataSource(database.flickrDao())
+        localDataSource = PhotoListLocalDataSource(database.flickrDao())
     }
 
     @Before
