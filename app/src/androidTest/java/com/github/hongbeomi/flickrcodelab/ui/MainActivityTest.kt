@@ -5,9 +5,12 @@ import android.content.Intent
 import android.content.res.Resources
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.hongbeomi.flickrcodelab.DataBindingIdlingResource
@@ -18,16 +21,15 @@ import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_L
 import com.github.hongbeomi.flickrcodelab.di.ServiceLocator
 import com.github.hongbeomi.flickrcodelab.monitorActivity
 import com.github.hongbeomi.flickrcodelab.ui.main.MainActivity
+import com.github.hongbeomi.flickrcodelab.ui.main.MainRecyclerAdapter
 import com.github.hongbeomi.flickrcodelab.utils.EspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@FlowPreview
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
@@ -102,6 +104,26 @@ class MainActivityTest {
         onView(withId(R.id.progressBar_main)).check(matches(isDisplayed()))
 
         onView(withId(R.id.recyclerView_main)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun givenRemotePhotoList_WhenClickImage_ThenMoveDetail() = runBlocking<Unit> {
+        // given
+        repository.addPhotoList(factory.photo1)
+
+        // when
+        activityScenario = ActivityScenario.launch(
+            Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        )
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onIdle()
+        onView(withId(R.id.recyclerView_main)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<MainRecyclerAdapter.MainViewHolder>(0, click())
+        )
+
+        // then
+        onView(withId(R.id.imageView_full_size_image)).check(matches(isDisplayed()))
     }
 
 }

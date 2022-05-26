@@ -8,6 +8,19 @@ Android CodeLab - with [Flickr](https://www.flickr.com/services/api/)
 
 - ``main`` branch is implemented using only the basic library.
 
+## Default Stack
+- AAC ViewModel, Lifecycle
+- Glide
+- Coroutine, Flow 
+- Test: Espresso, JUnit
+
 ## Branch
-- `main` : default branch. local data source -> SQLite, remote data source -> HttpsURLConnection
-- `room` : local data source -> Room
+- `main` : default branch
+```
+  local data source -> SQLite
+  remote data source -> HttpsURLConnection
+   ```
+- `room`
+```
+  local data source -> Room
+```

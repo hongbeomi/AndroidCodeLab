@@ -15,10 +15,8 @@ import com.github.hongbeomi.flickrcodelab.databinding.ActivityMainBinding
 import com.github.hongbeomi.flickrcodelab.ui.base.BaseActivity
 import com.github.hongbeomi.flickrcodelab.ui.full_size.FullSizeActivity
 import com.github.hongbeomi.flickrcodelab.ui.full_size.FullSizeActivity.Companion.KEY_URL_FULL_SIZE
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
-@FlowPreview
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var viewModel: MainViewModel
