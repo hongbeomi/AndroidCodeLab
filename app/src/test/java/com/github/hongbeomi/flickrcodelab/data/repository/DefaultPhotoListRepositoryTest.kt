@@ -2,7 +2,7 @@ package com.github.hongbeomi.flickrcodelab.data.repository
 
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
-import com.github.hongbeomi.flickrcodelab.data.source.remote.FakePhotosDataSource
+import com.github.hongbeomi.flickrcodelab.data.source.remote.FakePhotoListDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runTest
@@ -19,13 +19,13 @@ class DefaultPhotoListRepositoryTest {
     private val localPhotoList = mutableListOf(factory.photo1)
 
     private lateinit var defaultPhotosRepository: DefaultPhotoListRepository
-    private lateinit var photosRemoteDataSource: FakePhotosDataSource
-    private lateinit var photosLocalDataSource: FakePhotosDataSource
+    private lateinit var photosRemoteDataSource: FakePhotoListDataSource
+    private lateinit var photosLocalDataSource: FakePhotoListDataSource
 
     @Before
     fun setUp() {
-        photosLocalDataSource = FakePhotosDataSource(localPhotoList)
-        photosRemoteDataSource = FakePhotosDataSource(remotePhotoList)
+        photosLocalDataSource = FakePhotoListDataSource(localPhotoList)
+        photosRemoteDataSource = FakePhotoListDataSource(remotePhotoList)
 
         defaultPhotosRepository = DefaultPhotoListRepository(
             photosLocalDataSource,
