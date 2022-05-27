@@ -43,12 +43,12 @@ class MainViewModel(
                     }
                 }
         }
-
         refresh(true)
     }
 
     private fun refresh(isForceUpdate: Boolean) {
         _mainUiState.update { MainUiState.Loading }
+
         viewModelScope.launch(exceptionHandler) {
             pager.reset()
             pager.load {
@@ -60,7 +60,6 @@ class MainViewModel(
                     }
                 (_mainUiState.value as? MainUiState.Success)?.photoList?.isNotEmpty()
             }
-
         }
     }
 

@@ -1,35 +1,32 @@
-package com.github.hongbeomi.flickrcodelab.ui
+package com.github.hongbeomi.flickrcodelab.ui.main
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.hongbeomi.flickrcodelab.DataBindingIdlingResource
 import com.github.hongbeomi.flickrcodelab.R
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
 import com.github.hongbeomi.flickrcodelab.di.ServiceLocator
-import com.github.hongbeomi.flickrcodelab.monitorActivity
-import com.github.hongbeomi.flickrcodelab.ui.main.MainActivity
-import com.github.hongbeomi.flickrcodelab.ui.main.MainRecyclerAdapter
-import com.github.hongbeomi.flickrcodelab.utils.EspressoIdlingResource
+import com.github.hongbeomi.flickrcodelab.ui.full_size.FullSizeActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows.shadowOf
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -37,51 +34,40 @@ class MainActivityTest {
 
     private lateinit var activityScenario: ActivityScenario<MainActivity>
     private lateinit var repository: FakePhotoListRepository
+    private val resources: Resources = ApplicationProvider.getApplicationContext<Context>().resources
 
     private val factory = FakePhotoDataFactory()
-
-    private val resources: Resources =
-        ApplicationProvider.getApplicationContext<Context>().resources
-    private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     @Before
     fun setUp() {
         repository = FakePhotoListRepository()
-        repository.setUseIdlingResource(true)
         ServiceLocator.photoListRepository = repository
-        IdlingRegistry.getInstance().register(dataBindingIdlingResource)
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
     }
 
     @After
-    fun tearDown() = runBlocking {
+    fun tearDown() {
         ServiceLocator.resetRepository()
-        IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
         activityScenario.close()
     }
 
     @Test
     fun givenEmptyPhotoList_WhenStartMainPage_ThenShowLoadingAndEmptyError() {
-        // when
         activityScenario = ActivityScenario.launch(
             Intent(
                 ApplicationProvider.getApplicationContext(),
                 MainActivity::class.java
             )
         )
-        dataBindingIdlingResource.monitorActivity(activityScenario)
-
         // then
         onView(withId(R.id.progressBar_main)).check(matches(isDisplayed()))
+
+        Robolectric.flushForegroundThreadScheduler()
 
         onView(withId(R.id.textView_main_error)).check(matches(isDisplayed()))
         onView(withId(R.id.textView_main_error)).check(
             matches(
                 withText(
-                    resources.getString(
-                        R.string.text_main_fetch_error, EXCEPTION_MESSAGE_LIST_EMPTY
-                    )
+                    resources.getString(R.string.text_main_fetch_error, EXCEPTION_MESSAGE_LIST_EMPTY)
                 )
             )
         )
@@ -99,11 +85,11 @@ class MainActivityTest {
                 MainActivity::class.java
             )
         )
-        dataBindingIdlingResource.monitorActivity(activityScenario)
 
         // then
         onView(withId(R.id.progressBar_main)).check(matches(isDisplayed()))
 
+        Robolectric.flushForegroundThreadScheduler()
         onView(withId(R.id.recyclerView_main)).check(matches(isDisplayed()))
     }
 
@@ -116,15 +102,24 @@ class MainActivityTest {
         activityScenario = ActivityScenario.launch(
             Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
         )
-        dataBindingIdlingResource.monitorActivity(activityScenario)
 
+        var activity : Activity? = null
+        activityScenario.onActivity {
+            activity = it
+        }
+
+        onView(withId(R.id.progressBar_main)).check(matches(isDisplayed()))
+
+        Robolectric.flushForegroundThreadScheduler()
         onView(withId(R.id.recyclerView_main)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<MainRecyclerAdapter.MainViewHolder>(0, click())
+            RecyclerViewActions.actionOnItemAtPosition<MainRecyclerAdapter.MainViewHolder>(0, ViewActions.click())
         )
 
         // then
-        onView(withId(R.id.imageView_full_size_image)).check(matches(isDisplayed()))
-        onView(withId(R.id.imageButton_full_size_close)).check(matches(isDisplayed()))
+        val expect = Intent(activity, FullSizeActivity::class.java)
+        val actual = shadowOf(RuntimeEnvironment.getApplication()).nextStartedActivity
+
+        assertThat(expect .component, `is`(actual.component))
     }
 
 }
