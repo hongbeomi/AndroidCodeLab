@@ -52,12 +52,7 @@ class MainActivityTest {
 
     @Test
     fun givenEmptyPhotoList_WhenStartMainPage_ThenShowLoadingAndEmptyError() {
-        activityScenario = ActivityScenario.launch(
-            Intent(
-                ApplicationProvider.getApplicationContext(),
-                MainActivity::class.java
-            )
-        )
+        activityScenario = ActivityScenario.launch(MainActivity::class.java)
         // then
         onView(withId(R.id.progressBar_main)).check(matches(isDisplayed()))
 
@@ -79,12 +74,7 @@ class MainActivityTest {
         repository.addPhotoList(factory.photo1)
 
         // when
-        activityScenario = ActivityScenario.launch(
-            Intent(
-                ApplicationProvider.getApplicationContext(),
-                MainActivity::class.java
-            )
-        )
+        activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
         // then
         onView(withId(R.id.progressBar_main)).check(matches(isDisplayed()))
@@ -99,9 +89,7 @@ class MainActivityTest {
         repository.addPhotoList(factory.photo1)
 
         // when
-        activityScenario = ActivityScenario.launch(
-            Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
-        )
+        activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
         var activity : Activity? = null
         activityScenario.onActivity {

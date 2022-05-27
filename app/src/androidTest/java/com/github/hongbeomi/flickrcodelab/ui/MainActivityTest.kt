@@ -54,22 +54,17 @@ class MainActivityTest {
     }
 
     @After
-    fun tearDown() = runBlocking {
+    fun tearDown() {
+        activityScenario.close()
         ServiceLocator.resetRepository()
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
-        activityScenario.close()
     }
 
     @Test
     fun givenEmptyPhotoList_WhenStartMainPage_ThenShowLoadingAndEmptyError() {
         // when
-        activityScenario = ActivityScenario.launch(
-            Intent(
-                ApplicationProvider.getApplicationContext(),
-                MainActivity::class.java
-            )
-        )
+        activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
         // then
@@ -93,12 +88,7 @@ class MainActivityTest {
         repository.addPhotoList(factory.photo1)
 
         // when
-        activityScenario = ActivityScenario.launch(
-            Intent(
-                ApplicationProvider.getApplicationContext(),
-                MainActivity::class.java
-            )
-        )
+        activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
         // then
@@ -113,10 +103,10 @@ class MainActivityTest {
         repository.addPhotoList(factory.photo1)
 
         // when
-        activityScenario = ActivityScenario.launch(
-            Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
-        )
+        activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withId(R.id.progressBar_main)).check(matches(isDisplayed()))
 
         onView(withId(R.id.recyclerView_main)).perform(
             RecyclerViewActions.actionOnItemAtPosition<MainRecyclerAdapter.MainViewHolder>(0, click())
