@@ -2,7 +2,7 @@ package com.github.hongbeomi.flickrcodelab.data.source.remote
 
 import com.github.hongbeomi.flickrcodelab.data.source.PhotoListDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.connection.FlickrNetworkService
-import com.github.hongbeomi.flickrcodelab.model.Photo
+import com.github.hongbeomi.domain.Photo
 import com.github.hongbeomi.flickrcodelab.model.remote.toDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,7 +13,7 @@ class PhotoListRemoteDataSource(
     private val networkService: FlickrNetworkService
 ) : PhotoListDataSource {
 
-    override suspend fun getSearchPhotoList(page: Int): Flow<List<Photo>> {
+    override suspend fun getSearchPhotoList(page: Int): Flow<List<com.github.hongbeomi.domain.Photo>> {
         val photoList = networkService.getSoccerPhotos(page).photo
         return flow {
             emit(photoList.map { it.toDomain() })
@@ -24,7 +24,7 @@ class PhotoListRemoteDataSource(
         // no-op
     }
 
-    override suspend fun insertPhotoList(value: List<Photo>) {
+    override suspend fun insertPhotoList(value: List<com.github.hongbeomi.domain.Photo>) {
         // no-op
     }
 

@@ -1,6 +1,6 @@
 package com.github.hongbeomi.flickrcodelab.model.remote
 
-import com.github.hongbeomi.flickrcodelab.model.Photo
+import com.github.hongbeomi.domain.Photo
 import kotlinx.serialization.Serializable
 
 @Serializable

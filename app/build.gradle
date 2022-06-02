@@ -90,4 +90,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
     androidTestUtil "androidx.test:orchestrator:$orchestratorVersion"
 
+    implementation(project(':domain'))
+    testImplementation testFixtures(project(':fixtures'))
+
 }

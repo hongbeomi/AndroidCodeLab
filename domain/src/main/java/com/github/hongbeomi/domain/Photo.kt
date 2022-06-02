@@ -1,4 +1,4 @@
-package com.github.hongbeomi.flickrcodelab.model
+package com.github.hongbeomi.domain
 
 data class Photo(
     val id: String,

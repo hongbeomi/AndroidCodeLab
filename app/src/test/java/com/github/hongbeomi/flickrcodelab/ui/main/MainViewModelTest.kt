@@ -1,7 +1,7 @@
 package com.github.hongbeomi.flickrcodelab.ui.main
 
+import com.github.hongbeomi.fixtures.Fixtures
 import com.github.hongbeomi.flickrcodelab.TestCoroutineRule
-import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +23,6 @@ class MainViewModelTest {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var repository: FakePhotoListRepository
-    private val factory = FakePhotoDataFactory()
 
     @Before
     fun setUp() {
@@ -61,7 +60,7 @@ class MainViewModelTest {
     @Test
     fun givenNewPhotoList_WhenRefreshViewModel_ThenLoadingAndRemotePhotoList() = runTest {
         // given
-        val remoteData = listOf(factory.photo1, factory.photo2, factory.photo3)
+        val remoteData = listOf(Fixtures.photo(), Fixtures.photo(), Fixtures.photo())
         repository.addPhotoList(*remoteData.toTypedArray())
 
         // when
@@ -80,7 +79,7 @@ class MainViewModelTest {
     @Test
     fun givenNextPage_WhenLoadMore_ThenLoadingMoreAndAddedPhotoList() = runTest {
         // given
-        val remoteData = listOf(factory.photo1, factory.photo2, factory.photo3)
+        val remoteData = listOf(Fixtures.photo(), Fixtures.photo(), Fixtures.photo())
         repository.addPhotoList(*remoteData.toTypedArray())
 
         // loading, success

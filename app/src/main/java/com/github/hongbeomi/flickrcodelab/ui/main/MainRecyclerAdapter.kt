@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.github.hongbeomi.flickrcodelab.R
 import com.github.hongbeomi.flickrcodelab.databinding.ItemMainBinding
-import com.github.hongbeomi.flickrcodelab.model.Photo
-import com.github.hongbeomi.flickrcodelab.model.getImageUrl
+import com.github.hongbeomi.domain.Photo
+import com.github.hongbeomi.domain.getImageUrl
 
 class MainRecyclerAdapter(
     private val glideRequestManager: RequestManager,

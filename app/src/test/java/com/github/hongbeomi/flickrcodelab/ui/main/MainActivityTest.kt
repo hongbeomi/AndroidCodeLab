@@ -12,8 +12,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.hongbeomi.fixtures.Fixtures
 import com.github.hongbeomi.flickrcodelab.R
-import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
 import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
 import com.github.hongbeomi.flickrcodelab.di.ServiceLocator
@@ -35,8 +35,6 @@ class MainActivityTest {
     private lateinit var activityScenario: ActivityScenario<MainActivity>
     private lateinit var repository: FakePhotoListRepository
     private val resources: Resources = ApplicationProvider.getApplicationContext<Context>().resources
-
-    private val factory = FakePhotoDataFactory()
 
     @Before
     fun setUp() {
@@ -71,7 +69,7 @@ class MainActivityTest {
     @Test
     fun givenRemotePhotoList_WhenStartMainPage_ThenShowRemotePhotoList() {
         // given
-        repository.addPhotoList(factory.photo1)
+        repository.addPhotoList(Fixtures.photo())
 
         // when
         activityScenario = ActivityScenario.launch(MainActivity::class.java)
@@ -86,7 +84,7 @@ class MainActivityTest {
     @Test
     fun givenRemotePhotoList_WhenClickImage_ThenMoveDetail() {
         // given
-        repository.addPhotoList(factory.photo1)
+        repository.addPhotoList(Fixtures.photo())
 
         // when
         activityScenario = ActivityScenario.launch(MainActivity::class.java)

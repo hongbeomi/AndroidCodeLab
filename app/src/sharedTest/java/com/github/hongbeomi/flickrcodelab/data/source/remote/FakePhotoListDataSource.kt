@@ -1,7 +1,7 @@
 package com.github.hongbeomi.flickrcodelab.data.source.remote
 
 import com.github.hongbeomi.flickrcodelab.data.source.PhotoListDataSource
-import com.github.hongbeomi.flickrcodelab.model.Photo
+import com.github.hongbeomi.domain.Photo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

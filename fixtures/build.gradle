@@ -1,0 +1,9 @@
+plugins {
+    id 'kotlin'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'java-test-fixtures'
+}
+
+dependencies {
+    testFixturesImplementation(project(':domain'))
+}
