@@ -17,10 +17,6 @@ Android CodeLab - with [Flickr](https://www.flickr.com/services/api/)
 ## Branch
 - `main` : default branch
 ```
-  local data source -> SQLite
+  local data source -> Room
   remote data source -> HttpsURLConnection
    ```
-- `room`
-```
-  local data source -> Room
-```
