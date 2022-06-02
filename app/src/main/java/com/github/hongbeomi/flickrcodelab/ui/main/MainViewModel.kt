@@ -3,7 +3,7 @@ package com.github.hongbeomi.flickrcodelab.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.hongbeomi.flickrcodelab.data.source.PhotoListRepository
-import com.github.hongbeomi.flickrcodelab.model.Photo
+import com.github.hongbeomi.domain.Photo
 import com.github.hongbeomi.flickrcodelab.utils.Pager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -43,12 +43,12 @@ class MainViewModel(
                     }
                 }
         }
-
         refresh(true)
     }
 
     private fun refresh(isForceUpdate: Boolean) {
         _mainUiState.update { MainUiState.Loading }
+
         viewModelScope.launch(exceptionHandler) {
             pager.reset()
             pager.load {
@@ -60,7 +60,6 @@ class MainViewModel(
                     }
                 (_mainUiState.value as? MainUiState.Success)?.photoList?.isNotEmpty()
             }
-
         }
     }
 
@@ -85,7 +84,7 @@ class MainViewModel(
     }
 
     sealed interface MainUiState {
-        data class Success(val photoList: List<Photo> = emptyList()) : MainUiState
+        data class Success(val photoList: List<com.github.hongbeomi.domain.Photo> = emptyList()) : MainUiState
         object Loading : MainUiState
         data class Error(val exception: Throwable) : MainUiState
 

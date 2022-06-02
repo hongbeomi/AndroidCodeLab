@@ -1,7 +1,8 @@
 package com.github.hongbeomi.flickrcodelab.data.repository
 
+import com.github.hongbeomi.fixtures.Fixtures
+import com.github.hongbeomi.flickrcodelab.TestCoroutineRule
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
-import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoDataFactory
 import com.github.hongbeomi.flickrcodelab.data.source.remote.FakePhotoListDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
@@ -9,14 +10,17 @@ import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class DefaultPhotoListRepositoryTest {
 
-    private val factory = FakePhotoDataFactory()
-    private val remotePhotoList = mutableListOf(factory.photo1, factory.photo2, factory.photo3)
-    private val localPhotoList = mutableListOf(factory.photo1)
+    @get:Rule
+    val coroutineRule = TestCoroutineRule()
+
+    private val remotePhotoList = mutableListOf(Fixtures.photo(), Fixtures.photo(), Fixtures.photo())
+    private val localPhotoList = mutableListOf(Fixtures.photo())
 
     private lateinit var defaultPhotosRepository: DefaultPhotoListRepository
     private lateinit var photosRemoteDataSource: FakePhotoListDataSource
@@ -29,12 +33,13 @@ class DefaultPhotoListRepositoryTest {
 
         defaultPhotosRepository = DefaultPhotoListRepository(
             photosLocalDataSource,
-            photosRemoteDataSource
+            photosRemoteDataSource,
+            coroutineRule.dispatcher
         )
     }
 
     @Test
-    fun givenNotRefreshPhotos_WhenGetAllPhotos_ThenLocalPhotos() = runTest {
+    fun givenEmptyPhotoList_WhenGetAllPhotoList_ThenLocalPhotoList() = runTest {
         // when
         val photoList = defaultPhotosRepository.getAllPhotoList()
 
@@ -43,7 +48,7 @@ class DefaultPhotoListRepositoryTest {
     }
 
     @Test
-    fun givenRefreshPhotos_WhenGetAllPhotos_ThenUpdateRemotePhotos() = runTest {
+    fun givenRefreshPhotoList_WhenGetAllPhotoList_ThenUpdateRemotePhotoList() = runTest {
         // given
         defaultPhotosRepository.refreshPhotoList()
 
@@ -55,7 +60,7 @@ class DefaultPhotoListRepositoryTest {
     }
 
     @Test
-    fun givenNextPage_WhenLoadMorePhotos_ThenAddedPhotos() = runTest {
+    fun givenNextPage_WhenLoadMorePhotoList_ThenAddedPhotoList() = runTest {
         // given & when
         defaultPhotosRepository.refreshPhotoList()
         defaultPhotosRepository.loadMorePhotoList(2)

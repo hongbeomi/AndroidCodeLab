@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization' version "1.6.21"
+    id 'com.google.devtools.ksp' version "1.6.10-1.0.2"
+    id 'kotlin-kapt'
 }
 
 android {
@@ -40,6 +42,10 @@ android {
     }
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        unitTests {
+            includeAndroidResources = true
+        }
+        animationsDisabled = true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -62,9 +68,20 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
-    testImplementation "junit:junit:${junitVersion}"
+    ksp "androidx.room:room-compiler:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+
+    testImplementation "junit:junit:$junitVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "androidx.room:room-testing:$roomVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+    testImplementation "androidx.test:core-ktx:$androidXTestRunnerVersion"
+    testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    testImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
 
     androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
@@ -72,5 +89,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
     androidTestUtil "androidx.test:orchestrator:$orchestratorVersion"
+
+    implementation(project(':domain'))
+    testImplementation testFixtures(project(':fixtures'))
 
 }

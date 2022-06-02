@@ -2,11 +2,11 @@ package com.github.hongbeomi.flickrcodelab.di
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import androidx.room.Room
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.PhotoListRepository
+import com.github.hongbeomi.flickrcodelab.data.source.local.room.FlickrDatabase
 import com.github.hongbeomi.flickrcodelab.data.source.local.PhotoListLocalDataSource
-import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrDatabase
-import com.github.hongbeomi.flickrcodelab.data.source.local.sqlite.FlickrSqliteHelper
 import com.github.hongbeomi.flickrcodelab.data.source.remote.PhotoListRemoteDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.connection.FlickrNetworkService
 
@@ -24,10 +24,7 @@ object ServiceLocator {
     @VisibleForTesting
     fun resetRepository() {
         synchronized(lock) {
-            database?.apply {
-                deleteAll()
-                close()
-            }
+            database?.flickrDao()?.deleteAll()
             database = null
             network = null
             photoListRepository = null
@@ -62,13 +59,15 @@ object ServiceLocator {
 
     private fun createPhotosLocalDataSource(context: Context): PhotoListLocalDataSource {
         val dao = database ?: createDatabase(context)
-        return PhotoListLocalDataSource(dao)
+        return PhotoListLocalDataSource(dao.flickrDao())
     }
 
     private fun createDatabase(context: Context): FlickrDatabase {
-        val result = FlickrDatabase(
-            FlickrSqliteHelper(context)
-        )
+        val result = Room.databaseBuilder(
+            context,
+            FlickrDatabase::class.java,
+            "flickr-database"
+        ).build()
         database = result
         return result
     }
