@@ -12,12 +12,12 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.hongbeomi.fixtures.Fixtures
+import com.github.hongbeomi.domain.EXCEPTION_MESSAGE_LIST_EMPTY
 import com.github.hongbeomi.flickrcodelab.R
-import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListRepository
-import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
 import com.github.hongbeomi.flickrcodelab.di.ServiceLocator
 import com.github.hongbeomi.flickrcodelab.ui.full_size.FullSizeActivity
+import com.github.hongbeomi.shared.fixtures.Fixtures
+import com.github.hongbeomi.shared.repository.FakePhotoListRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.After

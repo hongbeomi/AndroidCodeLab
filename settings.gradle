@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "FlickrCodeLab"
 include ':app'
 include ':domain'
-include ':fixtures'
+include ':shared'

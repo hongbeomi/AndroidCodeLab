@@ -1,4 +1,4 @@
-package com.github.hongbeomi.flickrcodelab
+package com.github.hongbeomi.shared
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

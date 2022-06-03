@@ -1,7 +1,7 @@
 package com.github.hongbeomi.flickrcodelab.model
 
 import com.github.hongbeomi.domain.getImageUrl
-import com.github.hongbeomi.fixtures.Fixtures
+import com.github.hongbeomi.shared.fixtures.Fixtures
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test

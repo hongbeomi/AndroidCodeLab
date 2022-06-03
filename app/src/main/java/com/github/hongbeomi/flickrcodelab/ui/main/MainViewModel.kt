@@ -2,8 +2,7 @@ package com.github.hongbeomi.flickrcodelab.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.github.hongbeomi.flickrcodelab.data.source.PhotoListRepository
-import com.github.hongbeomi.domain.Photo
+import com.github.hongbeomi.domain.PhotoListRepository
 import com.github.hongbeomi.flickrcodelab.utils.Pager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*

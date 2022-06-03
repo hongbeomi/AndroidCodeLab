@@ -1,4 +1,4 @@
-package com.github.hongbeomi.fixtures
+package com.github.hongbeomi.shared.fixtures
 
 import com.github.hongbeomi.domain.Photo
 import kotlin.random.Random

@@ -7,8 +7,6 @@ import com.github.hongbeomi.flickrcodelab.model.remote.toDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-internal const val EXCEPTION_MESSAGE_LIST_EMPTY = "Photo List is Empty!"
-
 class PhotoListRemoteDataSource(
     private val networkService: FlickrNetworkService
 ) : PhotoListDataSource {

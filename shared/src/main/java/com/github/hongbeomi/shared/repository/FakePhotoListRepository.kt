@@ -1,9 +1,9 @@
-package com.github.hongbeomi.flickrcodelab.data.source
+package com.github.hongbeomi.shared.repository
 
-import com.github.hongbeomi.flickrcodelab.data.source.remote.EXCEPTION_MESSAGE_LIST_EMPTY
+import com.github.hongbeomi.domain.EXCEPTION_MESSAGE_LIST_EMPTY
 import com.github.hongbeomi.domain.Photo
-import com.github.hongbeomi.fixtures.Fixtures
-import com.github.hongbeomi.flickrcodelab.utils.wrapEspressoIdlingResource
+import com.github.hongbeomi.domain.PhotoListRepository
+import com.github.hongbeomi.shared.wrapEspressoIdlingResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

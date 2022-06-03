@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
-import com.github.hongbeomi.flickrcodelab.data.source.PhotoListRepository
+import com.github.hongbeomi.domain.PhotoListRepository
 import com.github.hongbeomi.flickrcodelab.data.source.local.room.FlickrDatabase
 import com.github.hongbeomi.flickrcodelab.data.source.local.PhotoListLocalDataSource
 import com.github.hongbeomi.flickrcodelab.data.source.remote.PhotoListRemoteDataSource

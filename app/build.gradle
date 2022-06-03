@@ -82,15 +82,16 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     testImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation(project(':shared'))
 
     androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
+    androidTestImplementation(project(':shared'))
     androidTestUtil "androidx.test:orchestrator:$orchestratorVersion"
 
     implementation(project(':domain'))
-    testImplementation testFixtures(project(':fixtures'))
 
 }

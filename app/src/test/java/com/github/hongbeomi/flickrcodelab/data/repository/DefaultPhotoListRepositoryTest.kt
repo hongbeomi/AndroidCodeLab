@@ -1,9 +1,9 @@
 package com.github.hongbeomi.flickrcodelab.data.repository
 
-import com.github.hongbeomi.fixtures.Fixtures
-import com.github.hongbeomi.flickrcodelab.TestCoroutineRule
 import com.github.hongbeomi.flickrcodelab.data.source.DefaultPhotoListRepository
-import com.github.hongbeomi.flickrcodelab.data.source.remote.FakePhotoListDataSource
+import com.github.hongbeomi.flickrcodelab.data.source.FakePhotoListDataSource
+import com.github.hongbeomi.shared.fixtures.Fixtures
+import com.github.hongbeomi.shared.TestCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runTest

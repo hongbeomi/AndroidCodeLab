@@ -1,4 +1,4 @@
-package com.github.hongbeomi.flickrcodelab.utils
+package com.github.hongbeomi.shared
 
 import androidx.test.espresso.idling.CountingIdlingResource
 
