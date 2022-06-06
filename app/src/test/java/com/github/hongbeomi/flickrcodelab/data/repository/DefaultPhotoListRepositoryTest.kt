@@ -39,15 +39,6 @@ class DefaultPhotoListRepositoryTest {
     }
 
     @Test
-    fun givenEmptyPhotoList_WhenGetAllPhotoList_ThenLocalPhotoList() = runTest {
-        // when
-        val photoList = defaultPhotosRepository.getAllPhotoList()
-
-        // then
-        assertThat(photoList.single(), IsEqual(localPhotoList))
-    }
-
-    @Test
     fun givenRefreshPhotoList_WhenGetAllPhotoList_ThenUpdateRemotePhotoList() = runTest {
         // given
         defaultPhotosRepository.refreshPhotoList()
@@ -57,6 +48,15 @@ class DefaultPhotoListRepositoryTest {
 
         // then
         assertThat(photoList.single(), IsEqual(remotePhotoList))
+    }
+
+    @Test
+    fun givenEmptyPhotoList_WhenGetAllPhotoList_ThenLocalPhotoList() = runTest {
+        // when
+        val photoList = defaultPhotosRepository.getAllPhotoList()
+
+        // then
+        assertThat(photoList.single(), IsEqual(localPhotoList))
     }
 
     @Test

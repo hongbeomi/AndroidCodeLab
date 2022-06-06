@@ -30,20 +30,22 @@ class FakePhotoListRepository : PhotoListRepository {
     }
 
     override suspend fun refreshPhotoList() {
-        if (shouldReturnError) {
-            throw Exception("Test Exception")
-        }
-        val newPhotoListFlow = flow {
-            val photoList = photoListServiceData
-            delay(500)
-            emit(photoList)
-        }
-
-        newPhotoListFlow.collect {
-            if (it.isEmpty()) {
-                throw IllegalStateException(EXCEPTION_MESSAGE_LIST_EMPTY)
+        wrapEspressoIdlingResource(isUseIdlingResource) {
+            if (shouldReturnError) {
+                throw Exception("Test Exception")
             }
-            photoListLocalFlow.value = it
+            val newPhotoListFlow = flow {
+                val photoList = photoListServiceData
+                delay(500)
+                emit(photoList)
+            }
+
+            newPhotoListFlow.collect {
+                if (it.isEmpty()) {
+                    throw IllegalStateException(EXCEPTION_MESSAGE_LIST_EMPTY)
+                }
+                photoListLocalFlow.value = it
+            }
         }
     }
 

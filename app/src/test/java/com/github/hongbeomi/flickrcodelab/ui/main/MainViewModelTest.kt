@@ -1,6 +1,7 @@
 package com.github.hongbeomi.flickrcodelab.ui.main
 
 import com.github.hongbeomi.domain.EXCEPTION_MESSAGE_LIST_EMPTY
+import com.github.hongbeomi.shared.TestCoroutineRule
 import com.github.hongbeomi.shared.fixtures.Fixtures
 import com.github.hongbeomi.shared.repository.FakePhotoListRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,7 +19,7 @@ import org.junit.Test
 class MainViewModelTest {
 
     @get:Rule
-    val coroutineRule = com.github.hongbeomi.shared.TestCoroutineRule()
+    val coroutineRule = TestCoroutineRule()
 
     private lateinit var viewModel: MainViewModel
     private lateinit var repository: FakePhotoListRepository

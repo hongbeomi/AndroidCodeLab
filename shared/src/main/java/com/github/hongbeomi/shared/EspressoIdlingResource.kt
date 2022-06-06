@@ -10,7 +10,6 @@ object EspressoIdlingResource {
     val countingIdlingResource = CountingIdlingResource(RESOURCE)
 
     fun increment() {
-
         countingIdlingResource.increment()
     }
 
@@ -25,8 +24,6 @@ inline fun <T> wrapEspressoIdlingResource(isUsing: Boolean, function: () -> T): 
     if (!isUsing) {
         return function()
     }
-    // Espresso does not work well with coroutines yet. See
-    // https://github.com/Kotlin/kotlinx.coroutines/issues/982
     EspressoIdlingResource.increment() // Set app as busy.
     return try {
         function()

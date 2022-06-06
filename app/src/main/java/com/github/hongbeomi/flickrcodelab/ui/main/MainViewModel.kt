@@ -2,6 +2,7 @@ package com.github.hongbeomi.flickrcodelab.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.github.hongbeomi.domain.Photo
 import com.github.hongbeomi.domain.PhotoListRepository
 import com.github.hongbeomi.flickrcodelab.utils.Pager
 import kotlinx.coroutines.*
@@ -82,19 +83,19 @@ class MainViewModel(
         super.onCleared()
     }
 
-    sealed interface MainUiState {
-        data class Success(val photoList: List<com.github.hongbeomi.domain.Photo> = emptyList()) : MainUiState
-        object Loading : MainUiState
-        data class Error(val exception: Throwable) : MainUiState
+    sealed class MainUiState {
+        data class Success(val photoList: List<Photo> = emptyList()) : MainUiState()
+        object Loading : MainUiState()
+        data class Error(val exception: Throwable) : MainUiState()
 
         fun isLoading() = this is Loading
         fun isError() = this is Error
         fun isSuccess() = this is Success
     }
 
-    sealed interface MainUiAction {
-        data class Refresh(val isForceUpdate: Boolean) : MainUiAction
-        object LoadMore : MainUiAction
+    sealed class MainUiAction {
+        data class Refresh(val isForceUpdate: Boolean) : MainUiAction()
+        object LoadMore : MainUiAction()
     }
 
 }

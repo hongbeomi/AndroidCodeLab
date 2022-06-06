@@ -1,6 +1,7 @@
 package com.github.hongbeomi.flickrcodelab.data.source
 
 import com.github.hongbeomi.domain.EXCEPTION_MESSAGE_LIST_EMPTY
+import com.github.hongbeomi.domain.Photo
 import com.github.hongbeomi.domain.PhotoListRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ class DefaultPhotoListRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PhotoListRepository {
 
-    override suspend fun getAllPhotoList(isForceUpdate: Boolean): Flow<List<com.github.hongbeomi.domain.Photo>> =
+    override suspend fun getAllPhotoList(isForceUpdate: Boolean): Flow<List<Photo>> =
         withContext(dispatcher) {
             if (isForceUpdate) {
                 refreshPhotoList()
